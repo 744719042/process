@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">process</string>
+    <string name="unregistered_activity">未注册Activity</string>
 </resources>

@@ -3,7 +3,6 @@ package com.example.process;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import com.example.process.utils.IOUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.RandomAccessFile;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button aidl;
     private Button socket;
     private Button guard;
-    private Button pixel;
+    private Button unregister;
 
     private int count = 1000;
     private Messenger sender;
@@ -67,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         socket.setOnClickListener(this);
         guard = findViewById(R.id.guard);
         guard.setOnClickListener(this);
-        pixel = findViewById(R.id.pixel);
-        pixel.setOnClickListener(this);
+        unregister = findViewById(R.id.unregister);
+        unregister.setOnClickListener(this);
     }
 
     @Override
@@ -181,8 +179,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v == guard) {
             Intent intent = new Intent(this, ServiceActivity.class);
             startActivity(intent);
-        } else if (v == pixel) {
-
+        } else if (v == unregister) {
+            Intent intent = new Intent(this, UnregisteredActivity.class);
+            startActivity(intent);
         }
     }
 
