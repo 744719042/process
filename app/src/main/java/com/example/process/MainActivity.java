@@ -3,6 +3,7 @@ package com.example.process;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button aidl;
     private Button socket;
     private Button guard;
+    private Button pixel;
 
     private int count = 1000;
     private Messenger sender;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         socket.setOnClickListener(this);
         guard = findViewById(R.id.guard);
         guard.setOnClickListener(this);
+        pixel = findViewById(R.id.pixel);
+        pixel.setOnClickListener(this);
     }
 
     @Override
@@ -177,6 +181,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v == guard) {
             Intent intent = new Intent(this, ServiceActivity.class);
             startActivity(intent);
+        } else if (v == pixel) {
+
         }
     }
 

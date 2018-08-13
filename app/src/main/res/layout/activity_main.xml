@@ -56,4 +56,11 @@
         android:textAllCaps="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/pixel"
+        android:text="像素点保活"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
