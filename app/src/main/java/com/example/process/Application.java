@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -28,6 +29,7 @@ public class Application extends android.app.Application {
         super.onCreate();
         try {
             hookStartActivity(this);
+            hookPackageManager(this);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -40,6 +42,33 @@ public class Application extends android.app.Application {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         registerReceiver(new ScreenBroadcastReceiver(), intentFilter);
+
+    }
+
+    private void hookPackageManager(Application application) {
+        try {
+            Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
+            Field getPackageManager = activityThreadClass.getDeclaredField("sPackageManager");
+            getPackageManager.setAccessible(true);
+            final Object packageManager = getPackageManager.get(null);
+            Class<?> ipackage = Class.forName("android.content.pm.IPackageManager");
+            Object newPackagManager = Proxy.newProxyInstance(getClassLoader(), new Class[]{ipackage}, new InvocationHandler() {
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    if (method.getName().equals("getActivityInfo")) {
+                        return new ActivityInfo();
+                    }
+                    return method.invoke(packageManager, args);
+                }
+            });
+            getPackageManager.set(null, newPackagManager);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
 
     }
 
